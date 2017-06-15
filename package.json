@@ -4,7 +4,9 @@
   "description": "my test bot",
   "main": "index.js",
   "dependencies": {
-    "probot": "0.6.0"
+    "github": "^9.2.0",
+    "probot": "0.6.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "localtunnel": "^1.8.3"
