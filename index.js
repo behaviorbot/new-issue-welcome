@@ -1,7 +1,8 @@
-//probot run -P test-bot.2017-06-13.private-key.pem  ./index.js
+// probot run -a 3012 -P test-bot.2017-06-13.private-key.pem  ./index.js
+
 module.exports = robot => {
   robot.on('issues.opened', async context => {
-
+    const template = "Congrats on opening your first issue/PR!";
     robot.log("This is a debug test message");
 
     let issue = context.payload.issue || context.payload.pull_request;
@@ -33,10 +34,9 @@ module.exports = robot => {
         if (error) {
             console.log(error.toJSON());
         } else {
-            //robot.log(response.data.length);
             //check length of response to make sure its only one issue/pr
             if (response.data.length === 1) {
-                context.github.issues.createComment(context.issue({body: "Congrats on your first PR/Issue!"}));
+                context.github.issues.createComment(context.issue({body: template}));
             }
         }
     });
