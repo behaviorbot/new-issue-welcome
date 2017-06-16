@@ -1,9 +1,8 @@
 //probot run -P test-bot.2017-06-13.private-key.pem  ./index.js
 module.exports = robot => {
   robot.on('issues', async (event, context) => {
-    //robot.log(typeof event);
-    //const template = "Congrats on opening a PR ";
-    //const fin_temp = JSON.stringify(event);
+    //should be issues.opened to guarantee new issues
+    //but included editted issues for purposes of debigging rn
     robot.log("This is a debug message");
     robot.log.debug("So is this!");
     //robot.log(event);
@@ -11,7 +10,7 @@ module.exports = robot => {
     if (!event.payload.repository.owner || !issue.user.id || !event.payload.repository.name) {
         issue = (await context.github.issues.get(context.issue())).data;
     }
-    const user_id = event.payload.issue.user.id;
+    const user_login = event.payload.issue.user.login;
     const repo_owner_id = event.payload.repository.owner.login;
     const repo_name = event.payload.repository.name;
     robot.log(event.payload.issue.user.id);
@@ -22,7 +21,7 @@ module.exports = robot => {
     // state = all
 
     var GitHubApi = require("github");
-    
+
     var github = new GitHubApi({
         debug: true,
     });
@@ -35,12 +34,15 @@ module.exports = robot => {
 
     github.issues.getForRepo({
         owner: repo_owner_id,
-        repo: repo_name
-    }, function(err, res) {
-        if (err) {
-            console.log(err.toJSON());
+        repo: repo_name,
+        state: "all",
+        creator: user_login
+    }, function(error, response) {
+        if (error) {
+            console.log(error.toJSON());
         } else {
-            console.log(res);
+            robot.log(response.data);
+            //check length of response to make sure its only one issue/pr
         }
     });
 
