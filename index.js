@@ -1,4 +1,4 @@
-// probot run -a 3012 -P test-bot.2017-06-13.private-key.pem  ./index.js
+// probot run -a 3012 -P private-key.pem  ./index.js
 
 module.exports = robot => {
   robot.on('issues.opened', async context => {
