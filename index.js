@@ -1,17 +1,20 @@
 // probot run -a 3012 -P test-bot.2017-06-13.private-key.pem  ./index.js
 
 module.exports = robot => {
-  robot.on('issues.opened', async context => {
-    const template = "Congrats on opening your first issue/PR!";
-    robot.log("This is a debug test message");
+  robot.on('issues', async context => {
 
-    let issue = context.payload.issue || context.payload.pull_request;
-    if (!context.payload.repository.owner || !issue.user.id || !context.payload.repository.name) {
+    if (!context.payload.repository.owner || !context.payload.issue.user.id || !context.payload.repository.name) {
         issue = (await context.github.issues.get(context.issue())).data;
     }
     const user_login = context.payload.issue.user.login;
     const repo_owner_id = context.payload.repository.owner.login;
     const repo_name = context.payload.repository.name;
+
+    const options = context.repo({path: '.github/new_issue_welcome.md'});
+    const response = await context.github.repos.getContent(options);
+    const template = new Buffer(response.data.content, 'base64').toString();
+
+    robot.log("This is a debug test message", template);
     
     var GitHubApi = require("github");
     
@@ -34,10 +37,11 @@ module.exports = robot => {
         if (error) {
             console.log(error.toJSON());
         } else {
+            robot.log(template);
             //check length of response to make sure its only one issue/pr
-            if (response.data.length === 1) {
-                context.github.issues.createComment(context.issue({body: template}));
-            }
+            //if (response.data.length === 1) {
+                //context.github.issues.createComment(context.issue({body: template}));
+            //}
         }
     });
   });
