@@ -1,6 +1,6 @@
 # new-issue-welcome
 
-> a GitHub App built with [probot](https://github.com/probot/probot) that welcomes new users when they open their first issue. You can use this welcome message to provide links to resources like the contributing guidelines, code of conduct, etc. It should be located in a `.github/new_issue_welcome.md`
+> a GitHub App built with [probot](https://github.com/probot/probot) that welcomes new users when they open their first issue. You can use this welcome message to provide links to resources like the contributing guidelines, code of conduct, etc. It should be located in a `.github/new-issue-welcome.md`
 
 ## Setup
 
