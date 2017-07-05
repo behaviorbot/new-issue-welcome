@@ -1,39 +1,29 @@
+const checkCount = require('./lib/checkCount');
+
 module.exports = robot => {
-  robot.on('issues', async context => {
-    if (!context.payload.repository.owner.login || !context.payload.issue.user.login || !context.payload.repository.name) {
-        issue = (await context.github.issues.get(context.issue())).data;
-    }
+    robot.on('issues.opened', async context => {
+        const userLogin = context.payload.issue.user.login;
+        const repoOwnerLogin = context.payload.repository.owner.login;
+        const repoName = context.payload.repository.name;
 
-    const user_login = context.payload.issue.user.login;
-    const repo_owner_id = context.payload.repository.owner.login;
-    const repo_name = context.payload.repository.name;
+        const github = await robot.auth(context.payload.installation.id);
+        const response = await github.issues.getForRepo(context.repo({
+            owner: repoOwnerLogin,
+            repo: repoName,
+            state: 'all',
+            creator: userLogin
+        }));
 
-    const options = context.repo({path: '.github/new-issue-welcome.md'});
-    const res = await context.github.repos.getContent(options);
-    const template = new Buffer(res.data.content, 'base64').toString();
-
-    const github = await robot.auth(context.payload.installation.id);
-    const response = await github.issues.getForRepo(context.repo({
-        owner: repo_owner_id,
-        repo: repo_name,
-        state: "all",
-        creator: user_login
-    }));
-
-    var count_issues = 0
-    //check for issues that are also PRs
-    for (i = 0; i < response.data.length; i++) {
-        if (!((response.data[i]).pull_request)) {
-            count_issues += 1
+        if (checkCount.PRCount(response)) {
+            let template;
+            try {
+                const options = context.repo({path: '.github/new-issue-welcome.md'});
+                const res = await context.github.repos.getContent(options);
+                template = Buffer.from(res.data.content, 'base64').toString();
+            } catch (err) {
+                template = 'Thanks for opening for first issue!';
+            }
+            context.github.issues.createComment(context.issue({body: template}));
         }
-        //exit loop if more than one PR
-        if (count_issues > 1) {
-            break;
-        }
-    }
-    //check length of response to make sure its only one issue/pr
-    if (count_issues === 1) {
-        context.github.issues.createComment(context.issue({body: template}));
-    }
-  });
+    });
 };
