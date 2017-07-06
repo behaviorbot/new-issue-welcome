@@ -5,14 +5,21 @@
   "main": "index.js",
   "dependencies": {
     "github": "^9.2.0",
-    "probot": "0.6.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "localtunnel": "^1.8.3"
+    "expect": "^1.20.2",
+    "localtunnel": "^1.8.3",
+    "mocha": "^3.4.2",
+    "probot": "^0.7.4",
+    "xo": "^0.18.2"
+  },
+  "xo": {
+    "space": 4
   },
   "scripts": {
-    "test": "test"
+    "start": "probot run ./index.js",
+    "test": "mocha && xo --extend probot"
   },
   "author": "hiimbex",
   "license": "ISC"
