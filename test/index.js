@@ -48,7 +48,7 @@ describe('new-issue-welcome', () => {
                 creator: 'hiimbex-test'
             });
 
-            expect(check).toBe(true);
+            expect(check.length).toBe(1);
 
             expect(github.repos.getContent).toHaveBeenCalledWith({
                 owner: 'hiimbex',
@@ -82,10 +82,8 @@ describe('new-issue-welcome', () => {
                 creator: 'hiimbex'
             });
 
-            expect(check).toBe(false);
-
+            expect(check.length).toNotBe(1);
             expect(github.repos.getContent).toNotHaveBeenCalled();
-
             expect(github.issues.createComment).toNotHaveBeenCalled();
         });
     });
