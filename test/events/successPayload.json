@@ -1,0 +1,21 @@
+{
+    "event": "issues",
+    "payload": {
+      "action": "opened",
+      "issue": {
+        "number": 7,
+        "user": {
+          "login": "hiimbex-test"
+        }
+      },
+      "repository": {
+        "name": "testing-things",
+        "owner": {
+          "login": "hiimbex"
+        }
+      },
+      "installation": {
+        "id": 32749
+      }
+    }
+}
