@@ -1,3 +1,4 @@
+const yaml = require('js-yaml');
 const checkCount = require('./lib/checkCount');
 
 module.exports = robot => {
@@ -6,8 +7,7 @@ module.exports = robot => {
         const repoOwnerLogin = context.payload.repository.owner.login;
         const repoName = context.payload.repository.name;
 
-        const github = await robot.auth(context.payload.installation.id);
-        const response = await github.issues.getForRepo(context.repo({
+        const response = await context.github.issues.getForRepo(context.repo({
             owner: repoOwnerLogin,
             repo: repoName,
             state: 'all',
@@ -15,16 +15,15 @@ module.exports = robot => {
         }));
 
         if ((checkCount.PRCount(response)).length === 1) {
-            let template;
+            let config;
             try {
-                const options = context.repo({path: '.github/new-issue-welcome.md'});
+                const options = context.repo({path: '.github/config.yml'});
                 const res = await context.github.repos.getContent(options);
-                template = Buffer.from(res.data.content, 'base64').toString();
+                config = yaml.load(Buffer.from(res.data.content, 'base64').toString()) || {};
             } catch (err) {
-                if (err.code === 404) template = 'Thanks for opening your first issue!';
-                else throw err;
+                if (err.code !== 404) throw err;
             }
-            context.github.issues.createComment(context.issue({body: template}));
+            context.github.issues.createComment(context.issue({body: config.firstIssueWelcomeComment}));
         }
     });
 };
