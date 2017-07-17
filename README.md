@@ -9,8 +9,7 @@
 1. Install the bot on the intended repositories. The plugin requires the following **Permissions and Events**:
 - Issues: **Read & Write**
   - [x] check the box for **Issue** events
-2. Add a `.github/config.yml` file that contains the contents you would like to reply within an `updateDocsComment`
-3. Optionally, you can also add a `whiteList` that includes terms, that if found in the title, the bot will not comment on.
+2. Add a `.github/config.yml` file that contains the contents you would like to reply within an `newIssueWelcomeComment`
 ```yml
 # Configuration for new-issue-welcome - https://github.com/behaviorbot/new-issue-welcome
 
