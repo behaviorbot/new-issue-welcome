@@ -53,15 +53,10 @@ describe('new-issue-welcome', () => {
             expect(github.repos.getContent).toHaveBeenCalledWith({
                 owner: 'hiimbex',
                 repo: 'testing-things',
-                path: '.github/new-issue-welcome.md'
+                path: '.github/config.yml'
             });
 
-            expect(github.issues.createComment).toHaveBeenCalledWith({
-                owner: 'hiimbex',
-                repo: 'testing-things',
-                number: 7,
-                body: 'Hello World!'
-            });
+            expect(github.issues.createComment).toHaveBeenCalled();
         });
     });
 
