@@ -15,7 +15,7 @@
 
 # Comment to be posted to on first time issues
 newIssueWelcomeComment: >
-  Thanks for opening your first pull request! The maintainers of this repository would appreciate it if you could double check you are following the contributing guidelines here: example.com
+  Thanks for opening your first issue here! Be sure to follow the issue template!
 ```
 
 ## Setup
