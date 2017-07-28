@@ -1,5 +1,4 @@
 const yaml = require('js-yaml');
-const checkCount = require('./lib/checkCount');
 
 module.exports = robot => {
     robot.on('issues.opened', async context => {
@@ -14,14 +13,17 @@ module.exports = robot => {
             creator: userLogin
         }));
 
-        if ((checkCount.PRCount(response)).length === 1) {
+        const countIssue = response.data.filter(data => !data.pull_request);
+        if (countIssue.length === 1) {
             let config;
             try {
                 const options = context.repo({path: '.github/config.yml'});
                 const res = await context.github.repos.getContent(options);
                 config = yaml.safeLoad(Buffer.from(res.data.content, 'base64').toString()) || {};
             } catch (err) {
-                if (err.code !== 404) throw err;
+                if (err.code !== 404) {
+                    throw err;
+                }
             }
             context.github.issues.createComment(context.issue({body: config.firstIssueWelcomeComment}));
         }
