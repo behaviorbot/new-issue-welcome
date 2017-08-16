@@ -18,7 +18,7 @@ describe('new-issue-welcome', () => {
             repos: {
                 getContent: expect.createSpy().andReturn(Promise.resolve({
                     data: {
-                        content: Buffer.from(`Hello World!`).toString('base64')
+                        content: Buffer.from(`newIssueWelcomeComment: >\n  woot woot`).toString('base64')
                     }
                 }))
             },
