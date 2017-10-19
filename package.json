@@ -6,7 +6,7 @@
   "dependencies": {
     "github": "^9.2.0",
     "js-yaml": "^3.9.0",
-    "probot": "^0.8.0",
+    "probot": "^3.0.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
