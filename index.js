@@ -9,7 +9,7 @@ module.exports = robot => {
     if (countIssue.length === 1) {
       try {
         const config = await context.config('config.yml')
-        if (config !== null && config.newIssueWelcomeComment) {
+        if (config && config.newIssueWelcomeComment) {
           context.github.issues.createComment(context.issue({body: config.newIssueWelcomeComment}))
         }
       } catch (err) {
