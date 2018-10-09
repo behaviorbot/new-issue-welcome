@@ -1,5 +1,5 @@
-module.exports = robot => {
-  robot.on('issues.opened', async context => {
+module.exports = app => {
+  app.on('issues.opened', async context => {
     const response = await context.github.issues.getForRepo(context.repo({
       state: 'all',
       creator: context.payload.issue.user.login
@@ -10,7 +10,7 @@ module.exports = robot => {
       try {
         const config = await context.config('config.yml')
         if (config && config.newIssueWelcomeComment) {
-          context.github.issues.createComment(context.issue({body: config.newIssueWelcomeComment}))
+          context.github.issues.createComment(context.issue({ body: config.newIssueWelcomeComment }))
         }
       } catch (err) {
         if (err.code !== 404) {
