@@ -1,5 +1,5 @@
 const expect = require('expect')
-const {createRobot} = require('probot')
+const { Application } = require('probot')
 const plugin = require('..')
 const successPayload = require('./events/successPayload')
 const successIssueRes = require('./events/successIssueRes')
@@ -7,12 +7,12 @@ const failPayload = require('./events/failPayload')
 const failIssueRes = require('./events/failIssueRes')
 
 describe('new-issue-welcome', () => {
-  let robot
+  let app
   let github
 
   beforeEach(() => {
-    robot = createRobot()
-    plugin(robot)
+    app = new Application()
+    plugin(app)
 
     github = {
       repos: {
@@ -24,18 +24,18 @@ describe('new-issue-welcome', () => {
       },
       issues: {
         getForRepo: expect.createSpy().andReturn(Promise.resolve(
-                    successIssueRes
-                )),
+          successIssueRes
+        )),
         createComment: expect.createSpy()
       }
     }
 
-    robot.auth = () => Promise.resolve(github)
+    app.auth = () => Promise.resolve(github)
   })
 
   describe('new-issue-welcome success', () => {
     it('posts a comment because it is a user\'s first issue opened', async () => {
-      await robot.receive(successPayload)
+      await app.receive(successPayload)
 
       expect(github.issues.getForRepo).toHaveBeenCalledWith({
         owner: 'hiimbex',
@@ -60,7 +60,7 @@ describe('new-issue-welcome', () => {
     })
 
     it('posts a comment because it is a user\'s first issue opened', async () => {
-      await robot.receive(failPayload)
+      await app.receive(failPayload)
 
       expect(github.issues.getForRepo).toHaveBeenCalledWith({
         owner: 'hiimbex',
