@@ -16,7 +16,7 @@ describe('new-issue-welcome', () => {
 
     github = {
       repos: {
-        getContent: expect.createSpy().andReturn(Promise.resolve({
+        getContents: expect.createSpy().andReturn(Promise.resolve({
           data: {
             content: Buffer.from(`newIssueWelcomeComment: >\n  woot woot`).toString('base64')
           }
@@ -44,7 +44,7 @@ describe('new-issue-welcome', () => {
         creator: 'hiimbex-test'
       })
 
-      expect(github.repos.getContent).toHaveBeenCalledWith({
+      expect(github.repos.getContents).toHaveBeenCalledWith({
         owner: 'hiimbex',
         repo: 'testing-things',
         path: '.github/config.yml'
@@ -69,7 +69,7 @@ describe('new-issue-welcome', () => {
         creator: 'hiimbex'
       })
 
-      expect(github.repos.getContent).toNotHaveBeenCalled()
+      expect(github.repos.getContents).toNotHaveBeenCalled()
       expect(github.issues.createComment).toNotHaveBeenCalled()
     })
   })
