@@ -4,20 +4,16 @@
   "description": "my test bot",
   "main": "index.js",
   "dependencies": {
-    "github": "^14.0.0",
-    "js-yaml": "^3.9.0",
-    "probot": "7.2.0",
-    "xmlhttprequest": "^1.8.0"
+    "probot": "9.3.0"
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.14.0",
     "expect": "^1.20.2",
-    "localtunnel": "^1.9.1",
     "mocha": "^5.2.0",
     "standard": "^12.0.1"
   },
   "engines": {
-    "node": ">= 7.7.0",
+    "node": ">= 8.0.0",
     "npm": ">= 4.0.0"
   },
   "scripts": {
