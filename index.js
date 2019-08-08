@@ -1,6 +1,6 @@
 module.exports = app => {
   app.on('issues.opened', async context => {
-    const response = await context.github.issues.getForRepo(context.repo({
+    const response = await context.github.issues.listForRepo(context.repo({
       state: 'all',
       creator: context.payload.issue.user.login
     }))
