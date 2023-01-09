@@ -4,7 +4,7 @@
   "description": "my test bot",
   "main": "index.js",
   "dependencies": {
-    "probot": "9.3.0"
+    "probot": "12.2.8"
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.14.0",
